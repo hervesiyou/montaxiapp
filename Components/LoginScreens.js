@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Constants} from 'expo'
+import {Constants,Expo} from 'expo'
 import {
   Container,
   Header,
@@ -40,7 +40,7 @@ export default class LoginScreens extends Component {
       <Container style={{ paddingTop: Constants.statusBarHeight }}>
         <Header>
           <Body>
-            <Title>Best App Ever!</Title>
+            <Title>Login!</Title>
           </Body>
         </Header>
         <Form>
@@ -49,14 +49,14 @@ export default class LoginScreens extends Component {
             <Input />
           </FormItem>
           <FormItem floatingLabel last>
-            <Label>Password</Label>
+            <Label>Mot de Passe</Label>
             <Input secureTextEntry={true} />
           </FormItem>
 
-          <Button full primary style={{ paddingBottom: 4 }}>
+          <Button full warning style={{ paddingBottom: 4 }}>
             <Text> Login </Text>
           </Button>
-          <Button full light primary><Text> Sign Up </Text></Button>
+          <Button full light warning><Text> Inscription </Text></Button>
         </Form>
       </Container>
     );
