@@ -6,7 +6,7 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
-import LoginScreen from '../screens/SettingsScreen';
+import LoginScreen from '../screens/LoginScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -54,8 +54,9 @@ SettingsStack.navigationOptions = {
   ),
 };
 // i add this tab for my logins screens
-const LoginStack = createStackNavigator({
-  Logins: LoginScreen,
+const LoginStack = createStackNavigator({  
+  Logins: {screen: LoginScreen ,navigationOptions:{header:null}},
+  
 });
 
 LoginStack.navigationOptions = {
@@ -63,7 +64,7 @@ LoginStack.navigationOptions = {
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
+      name={Platform.OS === 'ios' ? 'ios-information-circle' : 'ios-information-circle-outline'}  
     />
   ),
 };
@@ -72,4 +73,5 @@ export default createBottomTabNavigator({
   HomeStack,
   LinksStack,
   SettingsStack,
+  LoginStack,
 });
