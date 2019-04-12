@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import {Constants,Expo} from 'expo'
+import {ActivityIndicator,View,StyleSheet} from 'react-native';
+import {Constants,Expo} from 'expo';
+import { Font } from 'expo';
+
 import {
   Container,
   Header,
@@ -24,7 +27,7 @@ export default class LoginScreens extends Component {
   }
 
   async componentWillMount() {
-    await Expo.Font.loadAsync({
+    await Font.loadAsync({
       Roboto: require("native-base/Fonts/Roboto.ttf"),
       Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf"),
       Ionicons: require("@expo/vector-icons/fonts/Ionicons.ttf"),
@@ -34,11 +37,15 @@ export default class LoginScreens extends Component {
 
   render() {
     if (this.state.loading) {
-      return <Expo.AppLoading />;
+      return (
+        <View style={[styles.container, styles.horizontal]}>         
+          <ActivityIndicator size="small" color="#fff" />
+        </View>
+      )
     }
     return (
       <Container style={{ paddingTop: Constants.statusBarHeight }}>
-        <Header>
+        <Header style={{backgroundColor:'yellow'}}>
           <Body>
             <Title>Login!</Title>
           </Body>
@@ -62,3 +69,15 @@ export default class LoginScreens extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center'
+  },
+  horizontal: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 10
+  }
+})
