@@ -44,11 +44,13 @@ export  default class LoginNameSurname extends React.Component {
               <Left>
                 <Button transparent>
                   <Icon name="arrow-back" />
+
                 </Button>
               </Left>
               
-              <Image style={customStyle.rectangle14} source={require('../assets/images/top.png')}></Image>
+              
               <Body>
+              
                 <Title style={customStyle.topTitle}>Let's set up your account</Title>
               </Body>
               <Right />

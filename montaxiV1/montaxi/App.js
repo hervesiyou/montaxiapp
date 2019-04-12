@@ -1,121 +1,62 @@
 import React from 'react';
-import {
-  ActivityIndicator,
-  AsyncStorage,
-  Button,
-  StatusBar,
-  StyleSheet,
-  View,
-} from 'react-native';
-import { createStackNavigator, createSwitchNavigator, createAppContainer } from 'react-navigation';
+import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import { AppLoading, Asset, Font, Icon } from 'expo';
+import AppNavigator from './navigation/AppNavigator';
 
-class SignInScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Please sign in',
+export default class App extends React.Component {
+  state = {
+    isLoadingComplete: false,
   };
 
   render() {
-    return (
-      <View style={styles.container}>
-        <Button title="Sign in!" onPress={this._signInAsync} />
-      </View>
-    );
+    if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
+      return (
+        <AppLoading
+          startAsync={this._loadResourcesAsync}
+          onError={this._handleLoadingError}
+          onFinish={this._handleFinishLoading}
+        />
+      );
+    } else {
+      return (
+        <View style={styles.container}>
+          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+          <AppNavigator />
+        </View>
+      );
+    }
   }
 
-  _signInAsync = async () => {
-    await AsyncStorage.setItem('userToken', 'abc');
-    this.props.navigation.navigate('App');
-  };
-}
-
-class HomeScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Welcome to the app!',
-  };
-
-  render() {
-    return (
-      <View style={styles.container}>
-        <Button title="Show me more of the app" onPress={this._showMoreApp} />
-        <Button title="Actually, sign me out :)" onPress={this._signOutAsync} />
-      </View>
-    );
-  }
-
-  _showMoreApp = () => {
-    this.props.navigation.navigate('Other');
+  _loadResourcesAsync = async () => {
+    return Promise.all([
+      Asset.loadAsync([
+        require('./assets/images/robot-dev.png'),
+        require('./assets/images/robot-prod.png'),
+      ]),
+      Font.loadAsync({
+        // This is the font that we are using for our tab bar
+        ...Icon.Ionicons.font,
+        // We include SpaceMono because we use it in HomeScreen.js. Feel free
+        // to remove this if you are not using it in your app
+        'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
+      }),
+    ]);
   };
 
-  _signOutAsync = async () => {
-    await AsyncStorage.clear();
-    this.props.navigation.navigate('Auth');
-  };
-}
-
-class OtherScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Lots of features here',
+  _handleLoadingError = error => {
+    // In this case, you might want to report the error to your error
+    // reporting service, for example Sentry
+    console.warn(error);
   };
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <Button title="I'm done, sign me out" onPress={this._signOutAsync} />
-        <StatusBar barStyle="default" />
-      </View>
-    );
-  }
-
-  _signOutAsync = async () => {
-    await AsyncStorage.clear();
-    this.props.navigation.navigate('Auth');
+  _handleFinishLoading = () => {
+    this.setState({ isLoadingComplete: true });
   };
-}
-
-class AuthLoadingScreen extends React.Component {
-  constructor() {
-    super();
-    this._bootstrapAsync();
-  }
-
-  // Fetch the token from storage then navigate to our appropriate place
-  _bootstrapAsync = async () => {
-    const userToken = await AsyncStorage.getItem('userToken');
-
-    // This will switch to the App screen or Auth screen and this loading
-    // screen will be unmounted and thrown away.
-    this.props.navigation.navigate(userToken ? 'App' : 'Auth');
-  };
-
-  // Render any loading content that you like here
-  render() {
-    return (
-      <View style={styles.container}>
-        <ActivityIndicator />
-        <StatusBar barStyle="default" />
-      </View>
-    );
-  }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#fff',
   },
 });
-
-const AppStack = createStackNavigator({ Home: HomeScreen, Other: OtherScreen });
-const AuthStack = createStackNavigator({ SignIn: SignInScreen });
-
-export default createAppContainer(createSwitchNavigator(
-  {
-    AuthLoading: AuthLoadingScreen,
-    App: AppStack,
-    Auth: AuthStack,
-  },
-  {
-    initialRouteName: 'AuthLoading',
-  }
-));
