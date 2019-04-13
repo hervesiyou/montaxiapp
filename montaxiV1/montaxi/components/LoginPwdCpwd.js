@@ -1,22 +1,22 @@
 import React from 'react';
  
-import {ActivityIndicator,View,Text,AsyncStorage} from 'react-native';
-import { Container, Header,Left,Button,Icon,Right,Body,Title,Input,Image,Content,Form,Item as FormItem,Item,Label } from 'native-base';
+import {ActivityIndicator,View,Text,AsyncStorage,} from 'react-native';
+import { Container, Header,Left,Button,Icon,Right,Body,Title,Input,Image,Content,Form,Item ,Item as FormItem,Label} from 'native-base';
 import { Font } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
  
 
 import {customStyle} from '../styles/loginStyles'
 
-export  default class LoginNameSurname extends React.Component {
- 
+export  default class LoginPwdCpwd extends React.Component {
+
+    
   constructor(props) {
     super(props);
-    
     this.state = { 
       loading: true,
       navigation: this.props.navigation,
-     };
+    };
   }
 
   async componentWillMount() {
@@ -28,12 +28,9 @@ export  default class LoginNameSurname extends React.Component {
     });
     this.setState({ loading: false });
   }
-  componentDidMount(){
-     console.log(this.state.navigation);
-  }
   _next =  () => {
     AsyncStorage.setItem('userToken', 'abc');
-    this.state.navigation.navigate('LoginPwdCpwd2');
+    this.props.navigation.navigate('LoginCountryNumber');
   };
   _back =  () => { 
     this.state.navigation.goBack();
@@ -49,9 +46,8 @@ export  default class LoginNameSurname extends React.Component {
       )
     }
 
-    return (   
-        
-        <Container style={[this.props.style, { fontFamily: 'space-mono'  }]} >
+    return (        
+        <Container style={[this.props.style, { fontFamily: 'space-mono',marginTop:20 }]} >
             <Header span style={customStyle.header}>
               <Left>
                 <Button transparent onPress={this._back()}>
@@ -59,25 +55,23 @@ export  default class LoginNameSurname extends React.Component {
                 </Button>
               </Left>              
               <Body>              
-                <Title style={customStyle.topTitle}>Let's set up your account</Title>
+                <Title style={customStyle.topTitle}>Create your password</Title>
               </Body>
               <Right />
             </Header>
-            
             <Form>
               <FormItem floatingLabel>
-                <Label>Email</Label>
+                <Label>PASSWORD</Label>
                 <Input />
               </FormItem>
               <FormItem floatingLabel last>
-                <Label>Mot de Passe</Label>
+                <Label>CONFIRM PASSWORD</Label>
                 <Input secureTextEntry={true} />
               </FormItem>                
-              <Button light warning title="Next" onPress={this._next}><Text> Next </Text></Button>
-            </Form>       
+              <Button light warning title="Next" onPress={this._next()}><Text> Next </Text></Button>
+            </Form> 
+             
         </Container>
-        
-        
     )
   }
 }
