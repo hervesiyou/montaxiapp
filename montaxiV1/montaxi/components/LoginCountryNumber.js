@@ -1,21 +1,16 @@
-import React from 'react';
- 
+import React from 'react'; 
 import {ActivityIndicator,View,Text,AsyncStorage,} from 'react-native';
 import { Container, Header,Left,Button,Icon,Right,Body,Title,Input,Image,Content,Form,Item,Item as FormItem,Label } from 'native-base';
 import { Font } from 'expo';
-import { Ionicons } from '@expo/vector-icons';
- 
-
 import {customStyle} from '../styles/loginStyles'
 
 export  default class LoginCountryNumber extends React.Component {
-
     
   constructor(props) {
     super(props);
+    this.navigation = this.props.navigation,
     this.state = { 
-      loading: true,
-      navigation: this.props.navigation,
+      loading: true,      
     };
   }
 
@@ -28,12 +23,12 @@ export  default class LoginCountryNumber extends React.Component {
     });
     this.setState({ loading: false });
   }
-  _next =  () => {
+  _next(){
     AsyncStorage.setItem('userToken', 'abc');
-    this.props.navigation.navigate('App');
+    this.navigation.navigate('LoginCountry');
   };
-  _back =  () => { 
-    this.state.navigation.goBack();
+  _back(){ 
+    this.navigation.goBack();
   };
   
   render() {
@@ -47,10 +42,10 @@ export  default class LoginCountryNumber extends React.Component {
     }
 
     return (        
-        <Container style={[this.props.style, { fontFamily: 'space-mono' }]} >
+        <Container style={[this.props.style, { fontFamily: 'space-mono',marginTop:22  }]} >
             <Header span style={customStyle.header}>
               <Left>
-                <Button transparent onPress={this._back()}>
+                <Button transparent onPress={() =>this._back()}>
                   <Icon name="arrow-back" />
                 </Button>
               </Left>              
@@ -66,9 +61,9 @@ export  default class LoginCountryNumber extends React.Component {
               </FormItem>
               <FormItem floatingLabel last>
                 <Label>NUMBER</Label>
-                <Input secureTextEntry={true} />
+                <Input   />
               </FormItem>                
-              <Button light warning title="Next" onPress={this._next()}><Text> Next </Text></Button>
+              <Button light warning title="Next" onPress={() => this._next()}><Text> Next </Text></Button>
             </Form> 
              
         </Container>

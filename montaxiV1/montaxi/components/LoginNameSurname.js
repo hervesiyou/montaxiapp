@@ -1,10 +1,7 @@
-import React from 'react';
- 
+import React from 'react'; 
 import {ActivityIndicator,View,Text,AsyncStorage} from 'react-native';
 import { Container, Header,Left,Button,Icon,Right,Body,Title,Input,Image,Content,Form,Item as FormItem,Item,Label } from 'native-base';
-import { Font } from 'expo';
-import { Ionicons } from '@expo/vector-icons';
- 
+import { Font } from 'expo'; 
 
 import {customStyle} from '../styles/loginStyles'
 
@@ -12,10 +9,9 @@ export  default class LoginNameSurname extends React.Component {
  
   constructor(props) {
     super(props);
-    
+    this.navigation= this.props.navigation,
     this.state = { 
-      loading: true,
-      navigation: this.props.navigation,
+      loading: true,      
      };
   }
 
@@ -29,14 +25,13 @@ export  default class LoginNameSurname extends React.Component {
     this.setState({ loading: false });
   }
   componentDidMount(){
-     console.log(this.state.navigation);
+     console.log(this.navigation);
   }
-  _next =  () => {
-    AsyncStorage.setItem('userToken', 'abc');
-    this.state.navigation.navigate('LoginPwdCpwd2');
+  _next() {  
+     this.navigation.navigate('LoginPwdCpwd');
   };
-  _back =  () => { 
-    this.state.navigation.goBack();
+  _back(){  
+    this.navigation.goBack();
   };
   
   render() {
@@ -51,10 +46,10 @@ export  default class LoginNameSurname extends React.Component {
 
     return (   
         
-        <Container style={[this.props.style, { fontFamily: 'space-mono'  }]} >
+        <Container style={[this.props.style, { fontFamily: 'space-mono',marginTop:22  }]} >
             <Header span style={customStyle.header}>
               <Left>
-                <Button transparent onPress={this._back()}>
+                <Button transparent onPress={() => this._back()}>
                   <Icon name="arrow-back" />
                 </Button>
               </Left>              
@@ -66,14 +61,14 @@ export  default class LoginNameSurname extends React.Component {
             
             <Form>
               <FormItem floatingLabel>
-                <Label>Email</Label>
+                <Label>FIRST NAME</Label>
                 <Input />
               </FormItem>
               <FormItem floatingLabel last>
-                <Label>Mot de Passe</Label>
-                <Input secureTextEntry={true} />
+                <Label>LAST NAME</Label>
+                <Input />
               </FormItem>                
-              <Button light warning title="Next" onPress={this._next}><Text> Next </Text></Button>
+              <Button light warning title="Next" onPress={() => this._next()}><Text> Next </Text></Button>
             </Form>       
         </Container>
         

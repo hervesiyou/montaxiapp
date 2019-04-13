@@ -1,16 +1,14 @@
-import React from 'react';
- 
+import React from 'react'; 
 import {ActivityIndicator,View,Text,AsyncStorage,} from 'react-native';
-import { Container, Header,Left,Button,Icon,Right,Body,Title,Input,Image,Content,Form,Item ,Item as FormItem,Label} from 'native-base';
+import { Container, Header,Left,Button,Icon,Right,Body,Title,Input,Image,Content,Form,Item,Item as FormItem,Label } from 'native-base';
 import { Font } from 'expo';
-
 import {customStyle} from '../styles/loginStyles'
 
-export  default class LoginPwdCpwd extends React.Component {
+export  default class LoginVerifCode extends React.Component {
     
   constructor(props) {
     super(props);
-    this.navigation=this.props.navigation,
+    this.navigation = this.props.navigation,
     this.state = { 
       loading: true,      
     };
@@ -27,10 +25,13 @@ export  default class LoginPwdCpwd extends React.Component {
   }
   _next(){
     AsyncStorage.setItem('userToken', 'abc');
-    this.navigation.navigate('LoginCountryNumber');
+    this.navigation.navigate('LoginWelcome');
   };
   _back(){ 
     this.navigation.goBack();
+  };
+  _changeNumber(){ 
+    this.navigation.navigate('LoginChangeNumber');
   };
   
   render() {
@@ -44,28 +45,26 @@ export  default class LoginPwdCpwd extends React.Component {
     }
 
     return (        
-        <Container style={[this.props.style, { fontFamily: 'space-mono',marginTop:22 }]} >
+        <Container style={[this.props.style, { fontFamily: 'space-mono',marginTop:22  }]} >
             <Header span style={customStyle.header}>
               <Left>
-                <Button transparent onPress={ () =>this._back()}>
+                <Button transparent onPress={() =>this._back()}>
                   <Icon name="arrow-back" />
                 </Button>
               </Left>              
               <Body>              
-                <Title style={customStyle.topTitle}>Create your password</Title>
+                <Title style={customStyle.topTitle}> Code Verification</Title>
               </Body>
               <Right />
             </Header>
             <Form>
               <FormItem floatingLabel>
-                <Label>PASSWORD</Label>
+                <Label>Code Verification</Label>
                 <Input />
               </FormItem>
-              <FormItem floatingLabel last>
-                <Label>CONFIRM PASSWORD</Label>
-                <Input secureTextEntry={true} />
-              </FormItem>                
+                            
               <Button light warning title="Next" onPress={() => this._next()}><Text> Next </Text></Button>
+              <Button light warning title="Next" onPress={() => this._changeNumber()}><Text> Change Number </Text></Button>
             </Form> 
              
         </Container>
