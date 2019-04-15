@@ -41,7 +41,7 @@ export default class SplashScreen extends React.Component{
                     source={{ uri:'../assets/images/mon-taxi.jpg' }}
                 />
                 <Text style={styles.textView}>
-                    SplashScreen
+                    Mon Taxi
                 </Text>
             </View>
         )

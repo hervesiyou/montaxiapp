@@ -63,5 +63,5 @@ export default createBottomTabNavigator({
   HomeStack,
   LinksStack,
   SettingsStack,
-  SplashScreen,
+  
 });

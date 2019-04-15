@@ -1,13 +1,17 @@
 import React from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
-import { AppLoading, Asset, Font, Icon } from 'expo';
+import { Platform, StatusBar, StyleSheet, View, Image } from 'react-native';
+import { Asset, Font, Icon, SplashScreen } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
-import SplashScreen from "./screens/SplashScreen";
+//import SplashScreen from "./screens/SplashScreen";
 
 export default class App extends React.Component {
   state = {
+    isReady: false,
     isLoadingComplete: false,
   };
+  componentDidMount() {
+    SplashScreen.preventAutoHide();
+  }
   constructor(props){
     super(props);
     this.state = {
@@ -15,7 +19,7 @@ export default class App extends React.Component {
     }
   }
 
-  async componentDidMount() {
+  /*async componentDidMount() {
     // Preload data from an external API
     // Preload data using AsyncStorage
     const data = await this.performTimeConsumingTask();
@@ -23,9 +27,9 @@ export default class App extends React.Component {
     if (data !== null) {
       this.setState({ isLoadingComplete: false });
     }
-  }
+  }*/
   render() {
-    if (this.state.isLoadingComplete ) {
+    /*if (this.state.isLoadingComplete ) {
       return (
         <SplashScreen
         />
@@ -34,15 +38,43 @@ export default class App extends React.Component {
           onError={this._handleLoadingError}
           onFinish={this._handleFinishLoading}
         /> */
+    /*  );*/
+    if (!this.state.isReady) {
+      return (
+        
+          <Image 
+            source={require('./assets/images/splash.gif')}
+            resizeMode= 'cover'
+            onLoad={this._cacheResourcesAsync}
+          />
       );
-    } else {
+    
+    } 
       return (
         <View style={styles.container}>
           {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
           <AppNavigator />
         </View>
       );
-    }
+    
+  }
+  _cacheSplashResourcesAsync = async () => {
+    const gif = require('./assets/images/splash.gif');
+    return Asset.fromModule(gif).downloadAsync()
+  }
+  _cacheResourcesAsync = async () => {
+    SplashScreen.hide();
+    const images = [
+      require('./assets/images/icon.png'),
+      require('./assets/images/robot-dev.png'),
+    ];
+
+    const cacheImages = images.map((image) => {
+      return Asset.fromModule(image).downloadAsync();
+    });
+
+    await Promise.all(cacheImages);
+    this.setState({ isReady: true });
   }
 
   _loadResourcesAsync = async () => {
@@ -83,6 +115,9 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#fff301',
   },
+  image: {
+    backgroundColor: '#fff301'
+  }
 });
